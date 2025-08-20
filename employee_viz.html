@@ -1,15 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Data Visualization</title>
+</head>
+<body>
+  <h1>Employee Data Visualization</h1>
+
+  <h2>Python Code</h2>
+  <pre>
 import pandas as pd
 import matplotlib.pyplot as plt
 import io
-import base64
 
-# Your dataset
+# Dataset
 data = """employee_id,department,region,performance_score,years_experience,satisfaction_rating
 EMP001,IT,Asia Pacific,72.35,5,4
 EMP002,Operations,Latin America,61.17,5,4.6
 EMP003,Operations,Latin America,65.23,10,4.4
-EMP004,R&D,Europe,86.15,9,3.5
-EMP005,R&D,Africa,90.36,2,4
+EMP004,R&amp;D,Europe,86.15,9,3.5
+EMP005,R&amp;D,Africa,90.36,2,4
 """
 
 # Load data
@@ -17,54 +27,19 @@ df = pd.read_csv(io.StringIO(data))
 
 # Frequency count for Marketing dept
 marketing_count = (df["department"] == "Marketing").sum()
-
-# Print to console
 print("Marketing Department Count:", marketing_count)
 
-# Create histogram of departments
-plt.figure(figsize=(6,4))
-df["department"].value_counts().plot(kind="bar")
-plt.title("Department Distribution")
+# Create histogram
+df["department"].value_counts().plot(kind="bar", title="Department Distribution")
 plt.xlabel("Department")
 plt.ylabel("Count")
+plt.savefig("department_hist.png")
+plt.close()
+  </pre>
 
-# Save plot to base64 string
-buf = io.BytesIO()
-plt.savefig(buf, format="png")
-buf.seek(0)
-img_base64 = base64.b64encode(buf.read()).decode("utf-8")
+  <h2>Output Visualization</h2>
+  <img src="department_hist.png" alt="Department Histogram">
 
-# Create HTML with code + image
-python_code = """
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Load dataset
-# (Data omitted for brevity, loaded via StringIO)
-# Calculate frequency count for Marketing
-marketing_count = (df["department"] == "Marketing").sum()
-print("Marketing Department Count:", marketing_count)
-
-# Histogram of departments
-df["department"].value_counts().plot(kind="bar")
-plt.show()
-"""
-
-html_content = f"""
-<html>
-<head><title>Employee Data Visualization</title></head>
-<body>
-<h2>Python Code</h2>
-<pre>{python_code}</pre>
-
-<h2>Output Visualization</h2>
-<img src="data:image/png;base64,{img_base64}" alt="Department Histogram">
-
-<p>Email for verification: 24f1002855@ds.study.iitm.ac.in</p>
+  <p><strong>Email for verification:</strong> 24f1002855@ds.study.iitm.ac.in</p>
 </body>
 </html>
-"""
-
-# Save HTML
-with open("employee_visualization.html", "w") as f:
-    f.write(html_content)
