@@ -17,7 +17,7 @@ footer: "© 2025 Example Software Co."
 ---
 
 <!-- _class: lead -->
-<!-- _backgroundImage: url('https://picsum.photos/1200/800?grayscale') -->
+<!-- _backgroundImage: url('https://static.vecteezy.com/system/resources/thumbnails/040/890/255/small_2x/ai-generated-empty-wooden-table-on-the-natural-background-for-product-display-free-photo.jpg') -->
 <!-- _backgroundSize: cover -->
 <!-- _color: white -->
 <!-- _opacity: 0.8 -->
