@@ -4,7 +4,6 @@ This project demonstrates a **Circle Packing visualization** created using [RAWG
 The data represents a diversified investment portfolio across asset classes, sectors, and risk levels.
 
 ## Files
-- `portfolio.csv` → Synthetic portfolio dataset (15–20 rows)
 - `chart.png` → Circle Packing visualization (400x400 PNG)
 - `README.md` → Project documentation
 
