@@ -1,0 +1,6 @@
+Column 1,Supplier_Lead_Time,Inventory_Levels,Order_Frequency,Delivery_Performance,Cost_Per_Unit
+**Supplier\_Lead\_Time**,1,0.19,-0.89,-0.89,0.95
+**Inventory\_Levels**,0.19,1,-0.11,-0.24,0.24
+**Order\_Frequency**,-0.89,-0.11,1,0.78,-0.85
+**Delivery\_Performance**,-0.89,-0.24,0.78,1,-0.92
+**Cost\_Per\_Unit**,0.95,0.24,-0.85,-0.92,1
