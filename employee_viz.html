@@ -1,129 +1,70 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Employee Department Distribution</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="author" content="24f1002855@ds.study.iitm.ac.in">
-  <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 24px; background:#fcfdff; color:#0b1220;}
-    header { margin-bottom: 18px; }
-    h1 { margin: 0; font-size: 1.6rem; color:#102a43; }
-    .meta { color:#334e68; margin-top:6px; font-size:0.95rem; }
-    .counts { background: #ffffff; border: 1px solid #e1e8f0; padding: 12px; border-radius: 8px; display:inline-block; margin-top:12px; }
-    pre { margin:0; font-size:0.95rem; }
-    #chart { width:512px; max-width:100%; height:420px; margin-top:18px; }
-    footer { margin-top:22px; color:#475569; font-size:0.9rem; }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Employee Department Distribution</h1>
-    <div class="meta">Author / Verification: <strong>24f1002855@ds.study.iitm.ac.in</strong></div>
-  </header>
+import pandas as pd
+import matplotlib.pyplot as plt
+import io
+import base64
 
-  <section class="counts" id="counts-section" aria-live="polite">
-    <strong>Department frequency counts (from provided dataset):</strong>
-    <pre id="counts-text">Loading...</pre>
-    <div style="height:8px"></div>
-    <strong>Number of employees in Marketing:</strong> <span id="marketing-count">—</span>
-  </section>
-
-  <div id="chart" role="img" aria-label="Bar chart showing number of employees per department"></div>
-
-  <footer>
-    <p>Dataset: 5 rows sample provided inline. Script computes counts client-side in this HTML file.</p>
-  </footer>
-
-<script>
-/*
- This HTML is self-contained and computes the counts from the CSV sample provided.
- It then renders an interactive Plotly bar chart and writes the counts into the page.
-*/
-
-// === 1) Raw CSV text (use the exact dataset you provided) ===
-const csvText = `employee_id,department,region,performance_score,years_experience,satisfaction_rating
+# Your dataset
+data = """employee_id,department,region,performance_score,years_experience,satisfaction_rating
 EMP001,IT,Asia Pacific,72.35,5,4
 EMP002,Operations,Latin America,61.17,5,4.6
 EMP003,Operations,Latin America,65.23,10,4.4
 EMP004,R&D,Europe,86.15,9,3.5
-EMP005,R&D,Africa,90.36,2,4`;
+EMP005,R&D,Africa,90.36,2,4
+"""
 
-// === 2) Parse CSV (simple parser for this dataset) ===
-function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const header = lines[0].split(',').map(h => h.trim());
-  const rows = lines.slice(1).map(line => {
-    // handle simple commas; fields do not contain commas in the sample
-    const vals = line.split(',').map(v => v.trim());
-    const obj = {};
-    header.forEach((h, i) => obj[h] = vals[i]);
-    return obj;
-  });
-  return { header, rows };
-}
+# Load data
+df = pd.read_csv(io.StringIO(data))
 
-const parsed = parseCSV(csvText);
+# Frequency count for Marketing dept
+marketing_count = (df["department"] == "Marketing").sum()
 
-// === 3) Compute department frequencies ===
-const deptCounts = {};
-parsed.rows.forEach(r => {
-  const d = r['department'] || 'Unknown';
-  deptCounts[d] = (deptCounts[d] || 0) + 1;
-});
+# Print to console
+print("Marketing Department Count:", marketing_count)
 
-// Ensure "Marketing" key exists for display (even if zero)
-if (!deptCounts.hasOwnProperty('Marketing')) deptCounts['Marketing'] = 0;
+# Create histogram of departments
+plt.figure(figsize=(6,4))
+df["department"].value_counts().plot(kind="bar")
+plt.title("Department Distribution")
+plt.xlabel("Department")
+plt.ylabel("Count")
 
-// Sort departments by count descending for nicer chart ordering
-const sorted = Object.entries(deptCounts).sort((a,b) => b[1] - a[1]);
-const departments = sorted.map(e => e[0]);
-const counts = sorted.map(e => e[1]);
+# Save plot to base64 string
+buf = io.BytesIO()
+plt.savefig(buf, format="png")
+buf.seek(0)
+img_base64 = base64.b64encode(buf.read()).decode("utf-8")
 
-// === 4) Fill counts into page text ===
-const countsLines = sorted.map(([dept, cnt]) => `${dept}: ${cnt}`).join('\n');
-document.getElementById('counts-text').textContent = countsLines;
-document.getElementById('marketing-count').textContent = deptCounts['Marketing'];
+# Create HTML with code + image
+python_code = """
+import pandas as pd
+import matplotlib.pyplot as plt
 
-// === 5) Create Plotly bar chart ===
-const data = [{
-  x: departments,
-  y: counts,
-  type: 'bar',
-  marker: {
-    color: departments.map(d => {
-      // simple professional palette: R&D -> blue, Operations -> teal, IT -> indigo, others -> gray
-      if (d === 'R&D') return '#2563eb';
-      if (d === 'Operations') return '#0ea5a4';
-      if (d === 'IT') return '#7c3aed';
-      if (d === 'Marketing') return '#ef4444';
-      return '#64748b';
-    }),
-    line: { color: '#ffffff', width: 1 }
-  },
-  text: counts.map(String),
-  textposition: 'outside',
-  hovertemplate: '%{x}: %{y}<extra></extra>'
-}];
+# Load dataset
+# (Data omitted for brevity, loaded via StringIO)
+# Calculate frequency count for Marketing
+marketing_count = (df["department"] == "Marketing").sum()
+print("Marketing Department Count:", marketing_count)
 
-const layout = {
-  title: {
-    text: 'Employee Count by Department (sample)',
-    font: { size: 16 }
-  },
-  xaxis: { title: 'Department', automargin: true },
-  yaxis: { title: 'Number of Employees', dtick: 1, rangemode: 'tozero' },
-  margin: { t:50, b:140, l:60, r:30 },
-  plot_bgcolor: '#ffffff',
-  paper_bgcolor: '#fcfdff',
-  showlegend: false
-};
+# Histogram of departments
+df["department"].value_counts().plot(kind="bar")
+plt.show()
+"""
 
-const config = { responsive: true, displayModeBar: false };
+html_content = f"""
+<html>
+<head><title>Employee Data Visualization</title></head>
+<body>
+<h2>Python Code</h2>
+<pre>{python_code}</pre>
 
-Plotly.newPlot('chart', data, layout, config);
+<h2>Output Visualization</h2>
+<img src="data:image/png;base64,{img_base64}" alt="Department Histogram">
 
-</script>
+<p>Email for verification: 24f1002855@ds.study.iitm.ac.in</p>
 </body>
 </html>
+"""
+
+# Save HTML
+with open("employee_visualization.html", "w") as f:
+    f.write(html_content)
