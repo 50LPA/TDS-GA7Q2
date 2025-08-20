@@ -17,13 +17,14 @@ footer: "© 2025 Example Software Co."
 ---
 
 <!-- _class: lead -->
-<!-- _backgroundImage: url('https://static.vecteezy.com/system/resources/thumbnails/040/890/255/small_2x/ai-generated-empty-wooden-table-on-the-natural-background-for-product-display-free-photo.jpg') -->
+<!-- _backgroundImage: url('https://marp.app/assets/hero-background.jpg') -->
 <!-- _backgroundSize: cover -->
+<!-- _backgroundPosition: center -->
 <!-- _color: white -->
-<!-- _opacity: 0.8 -->
 
 # Vision  
-Bring documentation closer to developers, in formats they already use.
+Bring documentation closer to developers,  
+in formats they already use.
 
 ---
 
