@@ -17,10 +17,7 @@ footer: "© 2025 Example Software Co."
 ---
 
 <!-- _class: lead -->
-<!-- _backgroundImage: url('https://marp.app/assets/hero-background.jpg') -->
-<!-- _backgroundSize: cover -->
-<!-- _backgroundPosition: center -->
-<!-- _color: white -->
+![bg](https://images.unsplash.com/photo-1507525428034-b723cf961d3e)
 
 # Vision  
 Bring documentation closer to developers,  
