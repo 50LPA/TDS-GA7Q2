@@ -2,38 +2,61 @@
 marp: true
 theme: custom
 paginate: true
-_paginate: false
-header: 'Product Documentation'
-footer: '24f1002855@ds.study.iitm.ac.in'
-math: mathjax
+footer: "© 2025 Example Software Co."
 ---
 
 <!-- _class: lead -->
-# Product Documentation
+<!-- _backgroundColor: #1E293B -->
+<!-- _color: white -->
 
-**Email:** 24f1002855@ds.study.iitm.ac.in
+# Product Documentation  
+### Interactive & Maintainable Docs
 
----
-
-## Algorithmic Complexity
-
-The average case runtime is:
-
-$$
-T(n) = O(n \log n)
-$$
+**Author:** 24f1002855@ds.study.iitm.ac.in
 
 ---
 
-<!-- _backgroundImage: url('https://picsum.photos/1600/900') -->
-# Background Image Example
+<!-- _class: lead -->
+<!-- _backgroundImage: url('https://picsum.photos/1200/800?grayscale') -->
+<!-- _backgroundSize: cover -->
+<!-- _color: white -->
+<!-- _opacity: 0.8 -->
 
-This slide has a full background image.
+# Vision  
+Bring documentation closer to developers, in formats they already use.
 
 ---
 
-## Code Example
+## Why Marp for Documentation?
 
-```python
-def greet():
-    print("Hello from Marp!")
+- **Version-controlled:** Store `.md` in GitHub/GitLab  
+- **Convertibility:** Export to HTML, PDF, PPTX  
+- **Custom Themes:** Match company branding  
+- **Lightweight:** Just Markdown with directives  
+
+---
+
+## Example: Algorithm Complexity
+
+We can embed equations to explain performance:
+
+- Linear search: $O(n)$  
+- Binary search: $O(\log n)$  
+- Merge sort: $O(n \log n)$  
+
+---
+
+## Custom Theme Specification
+
+```css
+/* custom-theme.css */
+section {
+  font-family: "Segoe UI", sans-serif;
+}
+h1, h2, h3 {
+  color: #2563EB;
+}
+footer {
+  font-size: 0.8em;
+  color: #64748B;
+}
